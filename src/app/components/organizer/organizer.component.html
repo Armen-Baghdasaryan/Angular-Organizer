@@ -1,0 +1,51 @@
+<section>
+  <header>
+    Organizer:
+    <strong> {{ dateSercive.date | async | moment : "DD.MM.YYYY" }} </strong>
+    <hr />
+  </header>
+
+  <main>
+    <ul *ngIf="tasks.length; else noTasks">
+      <li class="task" *ngFor="let task of tasks; let i = index">
+        <span>
+          <strong> {{ i + 1 }}. </strong>
+          <span [ngClass]="{ toggled: task.completed }">{{ task.title }}</span>
+        </span>
+        <div>
+          <button
+            class="btn btn-primary btn-toggle"
+            [ngClass]="{ 'toggle-done': task.completed }"
+            (click)="handleToggle(task)"
+          >
+            <i class="material-icons">{{
+              !task.completed ? "check" : "close"
+            }}</i>
+          </button>
+          <button class="btn btn-primary btn-delete" (click)="remove(task)">
+            <i class="material-icons">delete</i>
+          </button>
+        </div>
+      </li>
+    </ul>
+    <ng-template #noTasks>
+      <p class="text-center" style="margin-bottom: 0.5rem; font-weight: bold">
+        No tasks yet...
+      </p>
+    </ng-template>
+  </main>
+
+  <footer>
+    <form (ngSubmit)="submit()" [formGroup]="form">
+      <input type="text" formControlName="title" placeholder="Add Task..." />
+
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        [disabled]="form.invalid"
+      >
+        Add
+      </button>
+    </form>
+  </footer>
+</section>
