@@ -25,16 +25,23 @@ export class CalendarComponent implements OnInit {
 
   constructor(
     private dateService: DateService,
-    private tasksService: TasksService
+    public tasksService: TasksService
   ) {}
 
   ngOnInit(): void {
     this.dateService.date.subscribe(this.generate.bind(this));
-    this.tasksService.loadAllTasks().subscribe((tasks) => {
-      tasks.map((task) => {
-        console.log(task)
-      });
-    });
+    this.tasksService.loadAllTasks().subscribe(
+      () => {
+        this.tasks = this.tasksService.tasks;
+      },
+      (err) => console.error(err)
+    );
+  }
+
+  hasTask(date: moment.Moment): boolean {
+    return this.tasks.some(
+      (task: Task) => task.id === date.format('DD-MM-YYYY')
+    );
   }
 
   generate(now: moment.Moment) {
@@ -52,14 +59,12 @@ export class CalendarComponent implements OnInit {
             const active = moment().isSame(value, 'date');
             const disabled = !now.isSame(value, 'month');
             const selected = now.isSame(value, 'date');
-            const taskId = value.format('DD-MM-YYYY');
 
             return {
               value,
               active,
               disabled,
               selected,
-              taskId,
             };
           }),
       });

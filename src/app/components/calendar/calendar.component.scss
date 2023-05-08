@@ -13,13 +13,14 @@ th {
   }
 }
 
-.have-task {
+.hase-task {
   border: 3px solid rgb(183, 26, 26);
 }
 
 td {
   text-align: center;
   transition: all 0.3s;
+  position: relative;
 
   &.disabled {
     opacity: 0.8;
@@ -30,6 +31,20 @@ td {
   &:hover:not(.disabled) {
     background: #eee;
     cursor: pointer;
+  }
+}
+
+.material-icons {
+  font-size: medium;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  color: rgb(249, 8, 8);
+
+  @media (max-width: 479px){
+    font-size: small;
+    top: 2px;
+    right: 2px;
   }
 }
 

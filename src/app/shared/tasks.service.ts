@@ -22,6 +22,8 @@ export class TasksService {
   static url =
     'https://angular-calendar-7792b-default-rtdb.europe-west1.firebasedatabase.app/tasks';
 
+  tasks: Task[] = [];
+
   constructor(private http: HttpClient) {}
 
   load(date: moment.Moment): Observable<Task[]> {
@@ -43,7 +45,7 @@ export class TasksService {
         if (!tasks) {
           return [];
         }
-        return Object.keys(tasks).map((key): any => key);
+        return this.tasks = Object.keys(tasks).map((key) => ({ ...tasks[key], id: key }));
       })
     );
   }

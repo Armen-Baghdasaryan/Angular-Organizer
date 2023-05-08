@@ -47,6 +47,9 @@ export class OrganizerComponent implements OnInit {
       (task) => {
         this.tasks.push(task);
         this.form.reset();
+        this.taskService.tasks.push(task);
+
+        console.log(this.taskService.tasks);
       },
       (err) => console.error(err)
     );
@@ -55,12 +58,14 @@ export class OrganizerComponent implements OnInit {
   handleToggle(task: Task) {
     this.tasks.map((item): any => {
       if (item.id === task.id) {
-        this.taskService.ubdate({...item, completed: !item.completed}).subscribe(
-          () => {
-            item.completed = !item.completed;
-          },
-          (err) => console.error(err)
-        );
+        this.taskService
+          .ubdate({ ...item, completed: !item.completed })
+          .subscribe(
+            () => {
+              item.completed = !item.completed;
+            },
+            (err) => console.error(err)
+          );
       }
     });
   }
@@ -69,6 +74,8 @@ export class OrganizerComponent implements OnInit {
     this.taskService.remove(task).subscribe(
       () => {
         this.tasks = this.tasks.filter((task) => task.id !== task.id);
+        // this.taskService.tasks.filter((task) => task.id !== task.id);
+        console.log(this.taskService.tasks);
       },
       (err) => console.error(err)
     );
